@@ -48,7 +48,7 @@ namespace WebApi.Services
             }
         }
 
-        public BingoGame Start(String gameName)
+        public BingoGame Start(String gameName = "square5")
         {
             var numbers = initNumbers(gameName);
             var game = new BingoGame()
@@ -56,18 +56,10 @@ namespace WebApi.Services
                 StartTime = new DateTime(),
                 Numbers = numbers
             };
-            _context.BingoNumbers.AddRange(numbers);
+            _context.BingoGames.Add(game);
             _context.SaveChanges();
             return game;
         }
-
-        //public BingoNumber Create(BingoNumber number)
-        //{
-        //    _context.BingoNumbers.Add(number);
-        //    _context.SaveChanges();
-        //    return number;
-        //}
-        // Call Update
         public void Update(string numValue, bool isPlayed = true)
         {
             var myNumber = _context.BingoNumbers.Where( b => b.NumValue == numValue).SingleOrDefault();
@@ -84,7 +76,6 @@ namespace WebApi.Services
                 _context.BingoNumbers.Remove(number);
                 _context.SaveChanges();
             }
-        }
         }
     }
 }

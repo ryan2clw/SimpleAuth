@@ -1,21 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using System.IdentityModel.Tokens.Jwt;
 using WebApi.Helpers;
-using Microsoft.Extensions.Options;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using WebApi.Services;
-using WebApi.Dtos;
-using WebApi.Entities;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class BingoController : ControllerBase
@@ -33,21 +22,20 @@ namespace WebApi.Controllers
             return Ok(numbers);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult StartGame(string gameName)
+        [HttpPost]
+        public IActionResult StartGame([FromBody]string gameName)
         {
             var game =  _bingoService.Start(gameName);
             return Ok(game);   
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(string numValue, bool isPlayed)
+        [HttpPut("{numValue}")]
+        public IActionResult Update(string numValue)
         {
-            // map dto to entity and set id
             try 
             {
                 // save 
-                _bingoService.Update(numValue, isPlayed);
+                _bingoService.Update(numValue);
                 return Ok();
             } 
             catch(AppException ex)
@@ -56,7 +44,7 @@ namespace WebApi.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        // MARK TO DO: MAKE DELETE CODE TO RESET GAME
         [HttpDelete("{id}")]
         public IActionResult Delete(string numValue)
         {
