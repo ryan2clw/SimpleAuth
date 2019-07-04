@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using WebApi.Helpers;
 using WebApi.Services;
 
 namespace WebApi.Controllers
 {
     // [Authorize]
+    [Produces("application/json")]
     [ApiController]
     [Route("[controller]")]
     public class BingoController : ControllerBase
@@ -14,22 +17,24 @@ namespace WebApi.Controllers
         {
             _bingoService = bingoService;
         }
-
-        [HttpGet]
+        public string Ping()
+        {
+            return "PONG!";
+        }
+        [HttpGet("GetNumbers")]
         public IActionResult GetNumbers()
         {
-            var numbers =  _bingoService.GetNumbers(isPlayed: false);
-            return Ok(numbers);
+            return Ok(_bingoService.GetNumbers(false));
         }
 
         [HttpPost]
         public IActionResult StartGame([FromBody]string gameName)
         {
-            var game =  _bingoService.Start(gameName);
+            var game = _bingoService.Start(gameName);
             return Ok(game);   
         }
 
-        [HttpPut("{numValue}")]
+        [HttpGet("{numValue}")]
         public IActionResult Update(string numValue)
         {
             try 
@@ -45,11 +50,11 @@ namespace WebApi.Controllers
             }
         }
         // MARK TO DO: MAKE DELETE CODE TO RESET GAME
-        [HttpDelete("{id}")]
-        public IActionResult Delete(string numValue)
-        {
-            _bingoService.Delete(numValue);
-            return Ok();
-        }
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(string numValue)
+        //{
+        //    _bingoService.Delete(numValue);
+        //    return Ok();
+        //}
     }
 }

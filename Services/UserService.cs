@@ -147,7 +147,6 @@ namespace WebApi.Services
                     if (computedHash[i] != storedHash[i]) return false;
                 }
             }
-
             return true;
         }
     }

@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Entities
 {
@@ -9,9 +8,7 @@ namespace WebApi.Entities
         public string NumValue { get; set; }
         public bool IsPlayed { get; set; }
         public int BingoGameId { get; set; }
+        [ForeignKey("BingoGameId")]
         public BingoGame BingoGame { get; set; }
     }
-    /* With this implementation you insert rows based on the game config.
-    Then the admin starts a process that updates the BingoNumbers to isPlayed every so often
-     */
 }

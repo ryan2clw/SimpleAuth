@@ -26,7 +26,8 @@ namespace WebApi.Services
 
         public IEnumerable<BingoNumber> GetNumbers(bool isPlayed)
         {
-            return _context.BingoNumbers.Where( b => b.IsPlayed == isPlayed).ToList();
+            BingoNumber[] stuff = _context.BingoNumbers.Where(b => b.IsPlayed == isPlayed).ToArray();
+            return stuff;
         }
 
         private BingoNumber[] initNumbers(string gameName)
